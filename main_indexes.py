@@ -164,14 +164,14 @@ for i, coef in zip(g_indices, coeff_g):
 
 # Инициализируем и настраиваем QDeepHybridSolver
 solver = QDeepHybridSolver()
-solver.token = "YOUR-API-TOKEN"
-solver.m_budget = 10 ** 20  # Устанавливаем очень большое значение бюджета измерений
-solver.num_reads = 100      # Количество запусков (reads) для решателя
+solver.token = "mtagdfsplb"
+solver.m_budget = 10 ** 8  # Устанавливаем очень большое значение бюджета измерений
+solver.num_reads = 1000     # Количество запусков (reads) для решателя
 
 # Пытаемся решить задачу QUBO с помощью QDeepHybridSolver
 try:
     response = solver.solve(Q)
-    results = response['QdeepHybridSolver']['configuration']
+    results = response['QdeepHybridSolver']
     print("Hybrid Solver Results:", results)
 except ValueError as e:
     print(f"Error: {e}")
@@ -179,7 +179,7 @@ except requests.RequestException as e:
     print(f"API Error: {e}")
 
 # Преобразуем полученную конфигурацию в массив numpy
-solution = np.array(results)
+solution = np.array(results['configuration'])
 
 # Извлекаем подмножества переменных из решения для z, d и g.
 z_sol = solution[z_indices].round().astype(int)
