@@ -88,7 +88,7 @@ for monom, coef in terms.items():
 
 # ----------------- Решение QUBO с помощью QDeepHybridSolver -----------------
 solver = QDeepHybridSolver()
-solver.token = "mtagdfsplb"
+solver.token = "YOUR-API-TOKEN"
 solver.m_budget = 10 ** 7
 solver.num_reads = 100
 
