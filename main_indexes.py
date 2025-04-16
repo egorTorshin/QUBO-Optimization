@@ -164,7 +164,7 @@ for i, coef in zip(g_indices, coeff_g):
 
 # Инициализируем и настраиваем QDeepHybridSolver
 solver = QDeepHybridSolver()
-solver.token = "mtagdfsplb"
+solver.token = "YOUR-API-TOKEN"
 solver.m_budget = 10 ** 8  # Устанавливаем очень большое значение бюджета измерений
 solver.num_reads = 1000     # Количество запусков (reads) для решателя
 
