@@ -121,7 +121,7 @@ for it in range(max_iter):
 
     # Решаем QUBO
     solver = QDeepHybridSolver()
-    solver.token = "mtagdfsplb"
+    solver.token = "YOUR-API-TOKEN"
     solver.m_budget = 10 ** 8
     solver.num_reads = 100
     try:
