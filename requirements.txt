@@ -2,3 +2,4 @@ qdeepsdk
 requests
 cvxpy
 sympy
+numpy
