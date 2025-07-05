@@ -107,7 +107,7 @@ for it in range(max_iter):
     # Build and solve the QUBO
     Q, _ = build_qubo(beta, sigma_x, gamma, sigma_y)
     solver = QDeepHybridSolver()
-    solver.token = "akwysie03c"
+    solver.token = "TOKEN"
     solver.m_budget = 10**10
     solver.num_reads = 5000
 
