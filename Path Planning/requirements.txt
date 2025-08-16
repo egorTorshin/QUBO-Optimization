@@ -1,0 +1,5 @@
+numpy>=1.21.0
+matplotlib>=3.5.0
+qdeepsdk>=1.0.0
+requests>=2.25.0
+typing-extensions>=4.0.0
