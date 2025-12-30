@@ -1,13 +1,23 @@
-## 🎯 Описание Задачи
 
-Найти кратчайший путь от старта к цели через вертикальные коридоры:
-- **Область 1**: Свободная от препятствий стартовая зона (снизу)
-- **Область 2**: Вертикальные коридоры (посередине) 
-- **Область 3**: Свободная от препятствий целевая зона (сверху)
+# 🧭 Path Planning via QUBO Optimization
 
-Алгоритм использует бинарное квантование непрерывных позиций и итеративное решение QUBO с QP уточнением.
 
-## 📁 Упрощенная Структура (Всего 4 Файла!)
+Find the shortest path from **start** to **goal** through **vertical corridors**, using quantum-inspired optimization.  
+The algorithm combines **binary quantization**, **iterative QUBO solving**, and **QP refinement**.
+
+---
+
+## 🎯 Task Description
+
+- **Region 1**: Obstacle-free starting zone (bottom)  
+- **Region 2**: Vertical corridors (middle)  
+- **Region 3**: Obstacle-free goal zone (top)
+
+Algorithm key idea: binary quantization of continuous positions and iterative solution of the QUBO model with QP refinement.
+
+---
+
+## 📁 Project Structure
 
 ```
 Path Planning/
@@ -16,158 +26,193 @@ Path Planning/
 ├── qubo_solver.py
 ├── path_planner.py
 ├── visualization.py
-└── requirements.txt        
+└── requirements.txt
 ```
 
-## 🚀 Быстрый Старт
+---
 
-### 1. Установка Зависимостей
+## 🚀 Quick Start
+
+### 1. Install Dependencies
 ```bash
 cd "Path Planning"
 pip install -r requirements.txt
 ```
 
-### 2. Запуск с эвристической функцией
+### 2. Run Examples
 
-#### 🟢 Простая задача (по умолчанию - demo режим):
+#### 🟢 Easy (demo mode)
 ```bash
 python main.py --easy
 ```
 
-#### 🟡 Средняя задача (по умолчанию):
+#### 🟡 Medium (default)
 ```bash
 python main.py --medium
-# или просто
+# or simply
 python main.py
 ```
 
-#### 🔴 Сложная задача (с поворотом):
+#### 🔴 Hard (with rotation)
 ```bash
 python main.py --hard
 ```
 
-#### ⚫ Экстремальная задача (25° поворот):
+#### ⚫ Extreme (25° rotation)
 ```bash
 python main.py --extreme
 ```
 
-### 3. Запуск с QUBO Решателем (D-Wave Simulated Annealing)
+### 3. Run with QUBO Solver (D-Wave Simulated Annealing)
 ```bash
-# локальный QUBO решатель, токен не нужен!
+# local solver, no token required
 python main.py --hard --qubo
 
-# с настройкой параметров
+# with custom parameters
 python main.py --medium --qubo --num-reads 5000 --num-sweeps 20000
 ```
 
-### 4. Справка по всем опциям
+### 4. Display Help
 ```bash
 python main.py --help
 ```
 
+---
 
-## Конфигурация
+## ⚙️ Configuration
 
-### Размеры Задач
-- **Малая**: 8 коридоров, 4-битное квантование (быстрое тестирование)
-- **Стандартная**: 16 коридоров, 8-битное квантование (полная задача)
+### Problem Sizes
+| Size | Corridors | Quantization | Use Case |
+|------|-----------|--------------|----------|
+| Small | 8 | 4-bit | Fast testing |
+| Standard | 16 | 8-bit | Full-scale |
 
-### Параметры Алгоритма
-- **Макс итераций**: 10 (циклы multiple-shooting)
-- **Точность**: 1e-3 (порог сходимости)
-- **Квантование**: Адаптивное сужение границ
+### Algorithm Parameters
+- **Max iterations**: 10 (multiple-shooting cycles)
+- **Tolerance**: 1e-3 (convergence threshold)
+- **Quantization**: Adaptive boundary shrinking
 
-## Обзор Алгоритма
+---
 
-Алгоритм **Multiple-Shooting QUBO** (PDF раздел 0.3):
+## 🧮 Algorithm Overview
 
-1. **Квантование** непрерывных позиций x_i с бинарным кодированием (ур. 12-13)
-2. **Построение QUBO** матрицы со штрафными слагаемыми (ур. 14)
-3. **Решение QUBO** → получение траектории x* и выбора коридоров c*
-4. **QP Уточнение** → фиксация c* и оптимизация траектории 
-5. **Сужение границ** → улучшение точности квантования
-6. **Повторение** до сходимости (QP не изменяет x*)
+**Multiple-Shooting QUBO Algorithm**
 
-## 📊 Ключевые Особенности
+1. **Quantize** continuous positions \(x_i\) via binary encoding (eq. 12–13)  
+2. **Build QUBO** matrix with penalty terms (eq. 14)  
+3. **Solve QUBO** to obtain optimal \(x^*\) and corridor selection \(c^*\)  
+4. **QP Refinement** with fixed \(c^*\)  
+5. **Adaptive Boundary Shrinking** to improve quantization  
+6. **Repeat** until QP no longer modifies \(x^*\)
 
-- ✅ **Упрощенная Архитектура**: Всего 4 основных модуля
-- ✅ **Demo Режим**: Работает без QUBO решателя для тестирования
-- ✅ **Адаптивное Квантование**: Динамическое сужение границ
-- ✅ **QP Уточнение**: Оптимизация траектории на основе CVXPY
-- ✅ **Визуализация**: Автоматическое построение путей
-- ✅ **Отслеживание Сходимости**: История итераций и метрики
+---
 
-## 🔧 Детали Модулей
+## 📊 Key Features
+
+- ✅ Simple modular architecture — only 4 core modules  
+- ✅ Works in **demo mode** (no QUBO solver required)  
+- ✅ Adaptive quantization with dynamic boundaries  
+- ✅ QP refinement using **CVXPY**  
+- ✅ Built-in visualization of paths and iterations  
+- ✅ Iteration history and convergence metrics
+
+---
+
+## 🔧 Module Details
 
 ### `problem_definition.py`
-- `PathPlanningProblem`: Параметры задачи (старт, цель, шаги, коридоры)
-- `EnvironmentConstraints`: Матрицы ограничений A^(k), b^(k) для 3 областей
-- `create_problem()`: Фабричные функции для стандартных конфигураций
+- `PathPlanningProblem`: Defines problem parameters (start, goal, steps, corridors)  
+- `EnvironmentConstraints`: Constraint matrices \(A^{(k)}, b^{(k)}\) for 3 regions  
+- `create_problem()`: Factory for standard configurations
 
-### `qubo_solver.py` 
-- `QUBOSolver`: Полный QUBO пайплайн
-- Индексирование бинарных переменных и квантование (PDF ур. 12-13)
-- Построение QUBO матрицы со штрафными слагаемыми (PDF ур. 14)
-- Декодирование решений и проверка ограничений
+### `qubo_solver.py`
+- `QUBOSolver`: Complete QUBO pipeline  
+- Binary variable indexing and quantization (eq. 12–13)  
+- Builds QUBO with penalty terms (eq. 14)  
+- Decodes solution and validates constraints
 
 ### `path_planner.py`
-- `PathPlanner`: Реализация multiple-shooting алгоритма
-- `PathPlannerConfig`: Конфигурация решателя
-- QP уточнение с CVXPY или простой проекцией
-- Адаптивное сужение границ и определение сходимости
+- `PathPlanner`: Core multiple-shooting logic  
+- `PathPlannerConfig`: Solver configuration  
+- QP refinement via CVXPY or projection  
+- Adaptive boundary shrinking and convergence detection
 
 ### `visualization.py`
-- `PathVisualizer`: Построение путей и отображение среды
-- Генерация demo путей для тестирования/резерва
-- Графики истории сходимости
+- `PathVisualizer`: Path plots and environment rendering  
+- Demo path generation for testing/fallback  
+- Convergence history visualization
 
-## 🎛️ Примеры Использования
+---
 
-### Базовое Использование
+## 🧩 Example Usage
+
+### Basic Example
 ```python
 from problem_definition import standard_problem
 from path_planner import PathPlanner, PathPlannerConfig
 
-# Создание задачи
+# Create problem
 problem, constraints = standard_problem()
 
-# Конфигурация решателя
+# Configure solver
 config = PathPlannerConfig(
     max_iterations=10,
     qubo_token="your-token"
 )
 
-# Решение
+# Solve
 planner = PathPlanner(problem, constraints, config)
 result = planner.solve()
 
-print(f"Целевая функция: {result.objective_value:.3f}")
-print(f"Сходимость: {result.converged}")
+print(f"Objective value: {result.objective_value:.3f}")
+print(f"Converged: {result.converged}")
 ```
 
-### Пользовательская Задача
+### Custom Problem
 ```python
 from problem_definition import create_problem
 
 problem, constraints = create_problem(
     start_point=[-3.0, 0.0],
     goal_point=[-3.0, 10.0],
-    L1=4, L2=6, L3=4,  # Шаги на область
-    H=16,              # Коридоры
-    N=8, n=6           # Биты квантования
+    L1=4, L2=6, L3=4,  # Steps per region
+    H=16,              # Corridors
+    N=8, n=6           # Quantization bits
 )
 ```
 
-## 📈 Производительность
+---
 
-**Масштабирование Задачи:**
-- **Переменные**: ~L×(2N + 4n) + L2×H бинарных переменных
-- **Малая задача**: 332 переменных (L=10, H=8, N=4, n=4)
-- **Стандартная задача**: 1,248 переменных (L=14, H=16, N=8, n=6)
+## 📈 Performance
 
-**Типичное Время Работы:**
-- Demo режим: <1 секунды
-- QUBO решение: 10-60 секунд на итерацию
-- Multiple-shooting: 2-10 итераций
+**Scaling:**
+| Case | Variables | Parameters |
+|------|-----------|------------|
+| Small | 332 | L=10, H=8, N=4, n=4 |
+| Standard | 1,248 | L=14, H=16, N=8, n=6 |
 
+**Runtime:**
+- Demo mode: < 1 sec  
+- QUBO solving: 10–60 sec/iteration  
+- Multiple-shooting: 2–10 iterations
 
+**Variables formula**: ~L×(2N + 4n) + L2×H binary variables
+
+---
+
+## 📚 References
+
+- Multiple-Shooting QUBO Method (Section 0.3, internal report PDF)
+- [CVXPY documentation](https://www.cvxpy.org/)
+- [D-Wave Ocean SDK](https://docs.ocean.dwavesys.com/)
+
+---
+
+## 👨‍💻 Author
+
+**Quantum Optimization Research — QDeep** • 2025  
+**Maintainer**: [Your GitHub handle]
+
+---
+
+*Ready for production use in quantum path planning research.*
